@@ -64,10 +64,10 @@
 	text-align: left;
 }
 
-.thin {
+.normal {
 	font-weight: 500;
 }
 
-.vue-autocompleter .list li.grey_content  {
+.vue-autocompleter .list li.greyspace  {
 	background-color: rgb(240, 240, 240);
 }
