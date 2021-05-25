@@ -7,14 +7,14 @@ Vue.component('v-autocompleter', {
         type="text"
         class="search_input"
         @input="$emit('input', $event.target.value)"
-        @keyup.down="downClick"
-        @keyup.up="upClick"
-        @keyup.enter="enterClick" />
+        @keyup.down="downKey"
+        @keyup.up="upKey"
+        @keyup.enter="enterKey" />
       <div class="bottom_border"></div>
       <div class="list">
         <ul v-for="(city, index) in filteredCities">
           <li v-on:click="listClicked(city.name)" :class="{grey_content: index == list_counter}">
-            <a v-on:click="choose(index)" v-html="boldCity(city)"></a>
+            <a v-on:click="choose(index)" v-html="bolderize(city)"></a>
           </li>
         </ul>
       </div>
@@ -113,7 +113,7 @@ Vue.component('v-autocompleter', {
      * Funkcja wystawia event po wybraniu miasta z listy autocompletera za pomocą entera
      * @param {*} event 
      */
-    enterClick: function(event) {
+    enterKey: function(event) {
       if(event) {
         this.CreateCities();
         this.list_counter = -1;
@@ -125,7 +125,7 @@ Vue.component('v-autocompleter', {
      * Funckja zmienia wartość iteratora listy autocompletera
      * w rekacji na przesuwanie strzełką w górę po liscie
      */
-    upClick() {
+    upKey() {
       if(this.list_counter > -1){
         this.list_counter -= 1;
       } else if(this.list_counter == 0) {
@@ -137,7 +137,7 @@ Vue.component('v-autocompleter', {
      * Funckja zmienia wartość iteratora listy autocompletera
      * w rekacji na przesuwanie strzełką w dół po liscie
      */
-    downClick() {
+    downKey() {
       if(this.list_counter < this.filteredCities.length - 1){
         this.list_counter += 1;
       }
@@ -152,7 +152,7 @@ Vue.component('v-autocompleter', {
      * @param {modyfikowana fraza} input_city 
      * @returns fraza po zmodyfikowaniu
      */
-    boldCity(input_city){
+    bolderize(input_city){
       let regex = new RegExp(this.googleSearch_temp, "gi");
       let bold = "<b>" + 
         input_city.name.replace(regex, match =>
