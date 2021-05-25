@@ -13,7 +13,7 @@ Vue.component('v-autocompleter', {
       <div class="bottom_border"></div>
       <div class="list">
         <ul v-for="(city, index) in filteredCities">
-          <li v-on:click="listClicked(city.name)" :class="{grey_content: index == list_counter}">
+          <li v-on:click="listClicked(city.name)" :class="{grey_content: index == in_focus}">
             <a v-on:click="choose(index)" v-html="bolderize(city)"></a>
           </li>
         </ul>
@@ -38,7 +38,7 @@ Vue.component('v-autocompleter', {
       cities_update: true,
       change_class: 0,
       cities: window.cities,
-      list_counter: -1,
+      in_focus: -1,
       foc: true,
       filteredCities: []
     }
@@ -50,10 +50,10 @@ Vue.component('v-autocompleter', {
      * Funkcja osprawdza przesuwanie sie po liście poprzez klikanie strzałkami
      * jeżeli użytkownik przesuwa się po liście input się zmienia                         
      */
-    list_counter: function(){
+    in_focus: function(){
       this.cities_update = false;      
-      if (this.list_counter >= 0) {
-        this.$emit('input', this.filteredCities[this.list_counter].name);
+      if (this.in_focus >= 0) {
+        this.$emit('input', this.filteredCities[this.in_focus].name);
       }
     },
 
@@ -66,7 +66,7 @@ Vue.component('v-autocompleter', {
       } 
       else{ 
         this.cities_update=true;
-        if(this.list_counter == -1){
+        if(this.in_focus == -1){
           this.googleSearch_temp = this.value; 
           this.CreateCities();     
         }
@@ -87,7 +87,7 @@ Vue.component('v-autocompleter', {
           else{
             this.filteredCities = result;
           }
-        this.list_counter = -1;
+        this.in_focus = -1;
     },
 
      /**
@@ -112,7 +112,7 @@ Vue.component('v-autocompleter', {
     enterKey: function(event) {
       if(event) {
         this.CreateCities();
-        this.list_counter = -1;
+        this.in_focus = -1;
       }
       this.$emit('enter', this.value);
     },
@@ -122,10 +122,10 @@ Vue.component('v-autocompleter', {
      * po klikaniu strzalki góra
      */
     upKey() {
-      if(this.list_counter > -1){
-        this.list_counter -= 1;
-      } else if(this.list_counter == 0) {
-        this.list_counter = this.filteredCities.length - 1;
+      if(this.in_focus > -1){
+        this.in_focus -= 1;
+      } else if(this.in_focus == 0) {
+        this.in_focus = this.filteredCities.length - 1;
       }
     },
 
@@ -134,11 +134,11 @@ Vue.component('v-autocompleter', {
      * po klikaniu strzalki dół
      */
     downKey() {
-      if(this.list_counter < this.filteredCities.length - 1){
-        this.list_counter += 1;
+      if(this.in_focus < this.filteredCities.length - 1){
+        this.in_focus += 1;
       }
-      else if(this.list_counter == this.filteredCities.length - 1){
-        this.list_counter = -1;
+      else if(this.in_focus == this.filteredCities.length - 1){
+        this.in_focus = -1;
       }
     },
 
