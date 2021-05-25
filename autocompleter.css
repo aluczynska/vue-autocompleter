@@ -1,9 +1,9 @@
 * {
-  padding: 0 0 0 0;
 	font-family: Arial, Helvetica, sans-serif;
+	padding: 0 0 0 0;
 }
 
-.home #auto {
+.home #top {
 	margin: 150px 50px 50px 50px;
 	display: flex;
 	flex-direction: column;
@@ -11,7 +11,7 @@
 	justify-content: center;
 }
 
-.results #auto {
+.results #top {
 	margin: 20px 0px 0px 20px;
 	display: flex;
 	flex-direction: row;
@@ -43,31 +43,31 @@
 	box-shadow: 0 0 5px rgba(172, 172, 172, 0.822);
 }
 
-.vue-autocompleter .glownainput {
+.vue-autocompleter .search_input {
 	font-size: 16px;
 	border: 1px solid rgb(255, 255, 255);
 	border-radius: 25px;
 	outline: none;
 	padding: 5px 15px 5px 15px;
-	width: 50%;
+	width: 40vh;
 
 }
 
 .vue-autocompleter .list li {
-	list-style: none;	
-	background-image: url('search.png');	
-	background-repeat: no-repeat;	
-	background-position: left center;	
-	background-size: 20px;	
-	margin: 0 15px 0 15px;	
-	text-align: left;	
-	padding: 7px 5px 7px 30px;
+	background-image: url('search_icon.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 20px;
+	list-style: none;
+	margin: 0 5px 0 5px;
+	padding: 0 15px 0 30px;
+	text-align: left;
 }
 
 .thin {
 	font-weight: 500;
 }
 
-.vue-autocompleter .list li.greyspace  {
+.vue-autocompleter .list li.grey_content  {
 	background-color: rgb(240, 240, 240);
 }
