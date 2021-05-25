@@ -13,7 +13,7 @@ Vue.component('v-autocompleter', {
       <div class="bottom_border"></div>
       <div class="list">
         <ul v-for="(city, index) in filteredCities">
-          <li v-on:click="listClicked(city.name)" :class="{grey_content: index == in_focus}">
+          <li v-on:click="listclicked(city.name)" :class="{grey_content: index == in_focus}">
             <a v-on:click="choose(index)" v-html="bolderize(city)"></a>
           </li>
         </ul>
@@ -68,7 +68,7 @@ Vue.component('v-autocompleter', {
         this.cities_update=true;
         if(this.in_focus == -1){
           this.googleSearch_temp = this.value; 
-          this.CreateCities();     
+          this.createcity();     
         }
       }
     },
@@ -79,7 +79,7 @@ Vue.component('v-autocompleter', {
      * Funckja pokazuje liste co najwyzej 10 miast,
      * które zawierają frazę wpisaną w input
      */
-    CreateCities(){
+    createcity(){
           let result = this.cities.filter(city => city.name.includes(this.value));
           if(result.length > 10){
             this.filteredCities = result.slice(1, 11);
@@ -94,9 +94,9 @@ Vue.component('v-autocompleter', {
      * Funkcja tworzy event po kliknieciu listy
      */
 
-    listClicked(name){
+    listclicked(name){
         this.$emit('input', this.value);
-        this.enterClick();
+        this.enterKey();
     },
         
     /**
@@ -111,7 +111,7 @@ Vue.component('v-autocompleter', {
      */
     enterKey: function(event) {
       if(event) {
-        this.CreateCities();
+        this.createcity();
         this.in_focus = -1;
       }
       this.$emit('enter', this.value);
