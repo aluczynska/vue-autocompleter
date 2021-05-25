@@ -23,11 +23,11 @@ Vue.component('v-autocompleter', {
 
   props: [
     /**
-     * tu jest wartość frazy wpisanej w input
+     * fraza wpisana w input
      */
     'value', 
     /**
-     * tu przekazujemy listę ze zmiennej cities
+     * lista z cities
      */
     'options'],
 
@@ -46,10 +46,9 @@ Vue.component('v-autocompleter', {
   
   watch: {
 
-    /**
-     * Funkcja obserwuje zmiany w przejściach strzałkami po liście w autocopleterze.
-     * Jeśli użytkownik przesuwa się po liście,
-     * wartość w impucie się zmienia, a lista pozostaje niezmieniona.
+   /**
+     * Funkcja osprawdza przesuwanie sie po liście poprzez klikanie strzałkami
+     * jeżeli użytkownik przesuwa się po liście input się zmienia                         
      */
     list_counter: function(){
       this.cities_update = false;      
@@ -59,8 +58,7 @@ Vue.component('v-autocompleter', {
     },
 
     /**
-     * Funkcja dostosowuje sposob wyświetlania listy autocompletera,
-     * w zależności od wartości wpisanej frazy oraz przejść po liście.
+     * Funkcja zmienia sposób wyświetlania listy
      */
     value: function(){
       if(this.value.length == 0){
@@ -78,8 +76,8 @@ Vue.component('v-autocompleter', {
 
   methods: {
     /**
-     * Funckja tworzy listę co najwyżej 10 miast
-     * zawierających frazę wpisaną w input
+     * Funckja pokazuje liste co najwyzej 10 miast,
+     * które zawierają frazę wpisaną w input
      */
     CreateCities(){
           let result = this.cities.filter(city => city.name.includes(this.value));
@@ -92,8 +90,8 @@ Vue.component('v-autocompleter', {
         this.list_counter = -1;
     },
 
-    /**
-     * Funkcja wystawia event po kliknieciu listy autocompletera.
+     /**
+     * Funkcja tworzy event po kliknieciu listy
      */
 
     listClicked(name){
@@ -102,16 +100,14 @@ Vue.component('v-autocompleter', {
     },
         
     /**
-     * Funkcja wystawia event po wybraniu miasta z listy autocompletera.
-     * @param {pozycja wybranego miasta na liście} i 
+     * Funkcja tworzy event po wybraniu miasta z listy
      */
     choose(i){
         this.$emit('input', this.filteredCities[i].name);
     },
 
     /**
-     * Funkcja wystawia event po wybraniu miasta z listy autocompletera za pomocą entera
-     * @param {*} event 
+     * Funkcja tworzy event po wybraniu miasta z listy za pomocą przycisku enter
      */
     enterKey: function(event) {
       if(event) {
@@ -122,8 +118,8 @@ Vue.component('v-autocompleter', {
     },
 
     /**
-     * Funckja zmienia wartość iteratora listy autocompletera
-     * w rekacji na przesuwanie strzełką w górę po liscie
+     * Funckja zmienia wartość iteratora listy
+     * po klikaniu strzalki góra
      */
     upKey() {
       if(this.list_counter > -1){
@@ -134,8 +130,8 @@ Vue.component('v-autocompleter', {
     },
 
     /**
-     * Funckja zmienia wartość iteratora listy autocompletera
-     * w rekacji na przesuwanie strzełką w dół po liscie
+     * Funckja zmienia wartość iteratora listy
+     * po klikaniu strzalki dół
      */
     downKey() {
       if(this.list_counter < this.filteredCities.length - 1){
@@ -147,10 +143,8 @@ Vue.component('v-autocompleter', {
     },
 
     /**
-     * Funkcja zapisuje wyboldowanym stylem część frazy, która nie została wpisana w inputa,
-     * zaś część pokrywającą się ze zmienną googleSearch_temp stylem normalnym
-     * @param {modyfikowana fraza} input_city 
-     * @returns fraza po zmodyfikowaniu
+     * Funkcja pogrubia fraze która nie została wpisana w inputa
+     * reszta ma styl normalny
      */
     bolderize(input_city){
       let regex = new RegExp(this.googleSearch_temp, "gi");
