@@ -1,0 +1,73 @@
+* {
+  padding: 0 0 0 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.home #auto {
+	margin: 150px 50px 50px 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.results #auto {
+	margin: 20px 0px 0px 20px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items:flex-start;
+}
+
+.vue-autocompleter .bottom_border{
+	border-bottom: 1px solid #ddd;
+	width: 94%;
+    height: 1px;
+    margin: -1px auto;
+}
+
+.results .vue-autocompleter {
+	margin: 30px 0 0 30px;
+	order: 2;
+}
+
+.vue-autocompleter {
+	border: 1px solid rgb(197, 197, 197);
+	border-radius: 25px;
+	outline: none;
+	cursor: auto;
+}
+
+.vue-autocompleter:hover {
+	border: 1px solid #fff;
+	box-shadow: 0 0 5px rgba(172, 172, 172, 0.822);
+}
+
+.vue-autocompleter .glownainput {
+	font-size: 16px;
+	border: 1px solid rgb(255, 255, 255);
+	border-radius: 25px;
+	outline: none;
+	padding: 5px 15px 5px 15px;
+	width: 50%;
+
+}
+
+.vue-autocompleter .list li {
+	list-style: none;	
+	background-image: url('search.png');	
+	background-repeat: no-repeat;	
+	background-position: left center;	
+	background-size: 20px;	
+	margin: 0 15px 0 15px;	
+	text-align: left;	
+	padding: 7px 5px 7px 30px;
+}
+
+.thin {
+	font-weight: 500;
+}
+
+.vue-autocompleter .list li.greyspace  {
+	background-color: rgb(240, 240, 240);
+}
