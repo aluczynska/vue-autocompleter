@@ -3,7 +3,7 @@
 	padding: 0 0 0 0;
 }
 
-.home #top {
+.home #autocomp {
 	margin: 150px 50px 50px 50px;
 	display: flex;
 	flex-direction: column;
@@ -11,7 +11,7 @@
 	justify-content: center;
 }
 
-.results #top {
+.results #autocomp {
 	margin: 20px 0px 0px 20px;
 	display: flex;
 	flex-direction: row;
