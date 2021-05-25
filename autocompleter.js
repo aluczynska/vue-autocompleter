@@ -13,7 +13,7 @@ Vue.component('v-autocompleter', {
       <div class="bottom_border"></div>
       <div class="list">
         <ul v-for="(city, index) in filteredCities">
-          <li v-on:click="listclicked(city.name)" :class="{grey_content: index == in_focus}">
+          <li v-on:click="listclicked(city.name)" :class="{greyspace: index == in_focus}">
             <a v-on:click="choose(index)" v-html="bolderize(city)"></a>
           </li>
         </ul>
@@ -33,13 +33,13 @@ Vue.component('v-autocompleter', {
 
   data: function () {
     return {
-      selected_city: '',
-      googleSearch_temp: '',
-      cities_update: true,
       change_class: 0,
       cities: window.cities,
       in_focus: -1,
       foc: true,
+      selected_city: '',
+      googleSearch_temp: '',
+      cities_update: true,
       filteredCities: []
     }
   },
@@ -150,7 +150,7 @@ Vue.component('v-autocompleter', {
       let regex = new RegExp(this.googleSearch_temp, "gi");
       let bold = "<b>" + 
         input_city.name.replace(regex, match =>
-            {return "<span class='thin'>"+ match +"</span>";}) 
+            {return "<span class='normal'>"+ match +"</span>";}) 
                 + "</b>";
       return bold;
     }
