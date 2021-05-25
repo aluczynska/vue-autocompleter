@@ -12,8 +12,8 @@
 
   <body> 
     <div id="app" :class="[change_class == 1 ? 'results' : 'home']">
-      <div id="top">
-        <v-autocompleter v-model="googleSearch" :options="cities" @enter="showResults"></v-autocompleter>
+      <div id="autocomp">
+        <v-autocompleter v-model="googleSearch" :options="cities" @enter="show"></v-autocompleter>
       </div>
     </div>
 </body>
@@ -27,7 +27,7 @@
       googleSearch: '',
     },
     methods: {
-      showResults(newValue) {
+      show(newValue) {
         if (this.change_class == 0){
           this.change_class = 1;
         }
