@@ -1,22 +1,20 @@
 Vue.component('v-autocompleter', {
   template: `
     <div class="vue-autocompleter">  
-      
-       <input
+      <input
         ref="first"
         :value="value"
         type="text"
-        class="glownainput"
+        class="search_input"
         @input="$emit('input', $event.target.value)"
-        @keyup.up="upKey"
-        @keyup.down="downKey"
-        @keyup.enter="enterKey" />
-
+        @keyup.down="downClick"
+        @keyup.up="upClick"
+        @keyup.enter="enterClick" />
       <div class="bottom_border"></div>
       <div class="list">
         <ul v-for="(city, index) in filteredCities">
-          <li v-on:click="listclicked(city.name)" :class="{greyspace: index == in_focus}">
-            <a v-on:click="choose(index)" v-html="bolderize(city)"></a>
+          <li v-on:click="listClicked(city.name)" :class="{grey_content: index == list_counter}">
+            <a v-on:click="choose(index)" v-html="boldCity(city)"></a>
           </li>
         </ul>
       </div>
@@ -25,23 +23,23 @@ Vue.component('v-autocompleter', {
 
   props: [
     /**
-     * fraza wpisana w input
+     * tu jest wartość frazy wpisanej w input
      */
     'value', 
     /**
-     * lista z cities
+     * tu przekazujemy listę ze zmiennej cities
      */
     'options'],
 
   data: function () {
     return {
-      in_focus: -1,	
-      focused: true,
-      selected_city: '',	
-      googleSearch: '',	
-      googleSearch_temp: '',	
-      cities_update: true,	
-      change_class: 0,	
+      selected_city: '',
+      googleSearch_temp: '',
+      cities_update: true,
+      change_class: 0,
+      cities: window.cities,
+      list_counter: -1,
+      foc: true,
       filteredCities: []
     }
   },
@@ -49,18 +47,20 @@ Vue.component('v-autocompleter', {
   watch: {
 
     /**
-     * Funkcja osprawdza przesuwanie sie po liście poprzez klikanie strzałkami
-     * jeżeli użytkownik przesuwa się po liście input się zmienia                         
+     * Funkcja obserwuje zmiany w przejściach strzałkami po liście w autocopleterze.
+     * Jeśli użytkownik przesuwa się po liście,
+     * wartość w impucie się zmienia, a lista pozostaje niezmieniona.
      */
-    in_focus: function(){
+    list_counter: function(){
       this.cities_update = false;      
-      if (this.in_focus >= 0) {
-        this.$emit('input', this.filteredCities[this.in_focus].name);
+      if (this.list_counter >= 0) {
+        this.$emit('input', this.filteredCities[this.list_counter].name);
       }
     },
 
     /**
-     * Funkcja zmienia sposób wyświetlania listy
+     * Funkcja dostosowuje sposob wyświetlania listy autocompletera,
+     * w zależności od wartości wpisanej frazy oraz przejść po liście.
      */
     value: function(){
       if(this.value.length == 0){
@@ -68,9 +68,9 @@ Vue.component('v-autocompleter', {
       } 
       else{ 
         this.cities_update=true;
-        if(this.in_focus == -1){
+        if(this.list_counter == -1){
           this.googleSearch_temp = this.value; 
-          this.ten_cities();     
+          this.CreateCities();     
         }
       }
     },
@@ -78,10 +78,10 @@ Vue.component('v-autocompleter', {
 
   methods: {
     /**
-     * Funckja pokazuje liste co najwyzej 10 miast,
-     * które zawierają frazę wpisaną w input
+     * Funckja tworzy listę co najwyżej 10 miast
+     * zawierających frazę wpisaną w input
      */
-    ten_cities(){
+    CreateCities(){
           let result = this.cities.filter(city => city.name.includes(this.value));
           if(result.length > 10){
             this.filteredCities = result.slice(1, 11);
@@ -89,66 +89,70 @@ Vue.component('v-autocompleter', {
           else{
             this.filteredCities = result;
           }
-        this.in_focus = -1;
+        this.list_counter = -1;
     },
 
     /**
-     * Funkcja tworzy event po kliknieciu listy
+     * Funkcja wystawia event po kliknieciu listy autocompletera.
      */
 
-    listclicked(name){
+    listClicked(name){
         this.$emit('input', this.value);
-        this.enterKey();
+        this.enterClick();
     },
         
     /**
-     * Funkcja tworzy event po wybraniu miasta z listy
+     * Funkcja wystawia event po wybraniu miasta z listy autocompletera.
+     * @param {pozycja wybranego miasta na liście} i 
      */
     choose(i){
         this.$emit('input', this.filteredCities[i].name);
     },
 
     /**
-     * Funkcja tworzy event po wybraniu miasta z listy za pomocą przycisku enter
+     * Funkcja wystawia event po wybraniu miasta z listy autocompletera za pomocą entera
+     * @param {*} event 
      */
-    enterKey: function(event) {
+    enterClick: function(event) {
       if(event) {
-        this.ten_cities();
-        this.in_focus = -1;
+        this.CreateCities();
+        this.list_counter = -1;
       }
       this.$emit('enter', this.value);
     },
 
     /**
-     * Funckja zmienia wartość iteratora listy
-     * po klikaniu strzalki góra
+     * Funckja zmienia wartość iteratora listy autocompletera
+     * w rekacji na przesuwanie strzełką w górę po liscie
      */
-    upKey() {
-      if(this.in_focus > -1){
-        this.in_focus -= 1;
-      } else if(this.in_focus == 0) {
-        this.in_focus = this.filteredCities.length - 1;
+    upClick() {
+      if(this.list_counter > -1){
+        this.list_counter -= 1;
+      } else if(this.list_counter == 0) {
+        this.list_counter = this.filteredCities.length - 1;
       }
     },
 
     /**
-     * Funckja zmienia wartość iteratora listy
-     * po klikaniu strzalki dół
+     * Funckja zmienia wartość iteratora listy autocompletera
+     * w rekacji na przesuwanie strzełką w dół po liscie
      */
-    downKey() {
-      if(this.in_focus < this.filteredCities.length - 1){
-        this.in_focus += 1;
+    downClick() {
+      if(this.list_counter < this.filteredCities.length - 1){
+        this.list_counter += 1;
       }
-      else if(this.in_focus == this.filteredCities.length - 1){
-        this.in_focus = -1;
+      else if(this.list_counter == this.filteredCities.length - 1){
+        this.list_counter = -1;
       }
     },
 
     /**
-     * Funkcja pogrubia fraze która nie została wpisana w inputa
-     * reszta ma styl normalny
+     * Funkcja zapisuje wyboldowanym stylem część frazy, która nie została wpisana w inputa,
+     * zaś część pokrywającą się ze zmienną googleSearch_temp stylem normalnym
+     * @param {modyfikowana fraza} input_city 
+     * @returns fraza po zmodyfikowaniu
      */
-    bolderize(input_city){
+    boldCity(input_city){
       let regex = new RegExp(this.googleSearch_temp, "gi");
       let bold = "<b>" + 
         input_city.name.replace(regex, match =>
